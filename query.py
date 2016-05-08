@@ -46,17 +46,25 @@ brands = Brand.query.filter(Brand.discontinued != None).all()
 # Get any model whose brand_name is not Chevrolet.
 models = Model.query.filter(Model.brand_name != 'Chevrolet').all()
 
+
 # Fill in the following functions. (See directions for more info.)
-
-
 def get_model_info(year):
     '''Takes in a year, and prints out each model, brand_name, and brand
     headquarters for that year using only ONE database query.'''
 
-    # models = db.session.query(Model).filter(Model.name, Model.brand_name, Brand.headquarters).all()
-    # models = db.session.query(Model.name, Model.brand_name, Brand.headquarters).all()
-    models = db.session.query(Model).filter((Model.year == year) & (Model.name) & (Model.brand_name == Brand.name) & (Brand.headquarters)).all()
-    # user_ratings = db.session.query(Rating).filter(Rating.user_id == user_id).all()
+    # Returns a list of Model objects
+    models = db.session.query(Model).filter(Model.year == year).all()
+
+    # for-loop to iterate of the list of object and get a single object out
+    for model in models:
+        # calls attributes on the single model object from the Model Class
+        model_name = model.name
+        brand_name = model.brand_name
+        #have to call the model object as well as the brand attribute from the brands table
+        # in the Brand Class to get the headquarters. Set relationship between both classes to call this attribute.
+        headquarters = model.brand.headquarters
+
+    print "Model name: %s \nBrand name: %s \nHeadquarters: %s \n" % (model_name, brand_name, headquarters)
 
 
 def get_brands_summary():
@@ -73,8 +81,18 @@ def get_brands_summary():
 
 # 1. What is the returned value and datatype of ``Brand.query.filter_by(name='Ford')``?
 
+    # The returned value is a
+    # query of the brands table of the Brand class
+    # where name is 'Ford'
+    # Its datatype is an object.
+
 # 2. In your own words, what is an association table, and what *type* of relationship
 # does an association table manage?
+
+    # An association table is a table you create
+    # only for the purpose of managing a relationship between a many-to-many tables.
+    # The association table holds the foreign keys that bridge the tables together creating the relationship between them.
+    # Having 2 or more foreign keys makes the table an association table.
 
 # -------------------------------------------------------------------
 # Part 3
