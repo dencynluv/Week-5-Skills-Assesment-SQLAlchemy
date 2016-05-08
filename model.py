@@ -17,13 +17,18 @@ class Model(db.Model):
 
     __tablename__ = "models"
 
-    model_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     year = db.Column(db.Integer, nullable=False)
     brand_name = db.Column(db.String(50), nullable=True)
     name = db.Column(db.String(50), nullable=False)
-    brand_id = db.Column(db.Integer, db.ForeignKey('brands.brand_id'), nullable=False)
+    brand_id = db.Column(db.Integer, db.ForeignKey('brands.id'), nullable=False)
 
     brand = db.relationship('Brand')
+
+    def __repr__(self):
+            """Provide helpful representation when printed."""
+
+            return "<Model id=%s brand_name=%s name=%s>" % (self.id, self.brand_name, self.name)
 
 
 class Brand(db.Model):
@@ -31,7 +36,7 @@ class Brand(db.Model):
 
     __tablename__ = "brands"
 
-    brand_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     founded = db.Column(db.Integer, nullable=True)
     headquarters = db.Column(db.String(50), nullable=True)
@@ -39,6 +44,10 @@ class Brand(db.Model):
 
     models = db.relationship('Model')
 
+    def __repr__(self):
+            """Provide helpful representation when printed."""
+
+            return "<Brand id=%s name=%s>" % (self.id, self.name)
 
 # End Part 1
 
